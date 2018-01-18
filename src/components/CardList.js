@@ -6,10 +6,10 @@ import CardVehicles from './CardTypes/CardVehicles';
 import CardSpecies from './CardTypes/CardSpecies';
 import CardPlanets from './CardTypes/CardPlanets';
 
-const films = (user) => {
+const films = (user, i) => {
   return (
     <CardFilms
-      key   ={user.id}
+      key   ={i}
       title  ={user.title}
       releaseDate ={user.release_date}
       producer ={user.producer}
@@ -17,10 +17,10 @@ const films = (user) => {
   );
 }
 
-const people = (user) => {
+const people = (user, i) => {
   return (
     <CardPeople
-      key   ={user.id}
+      key   ={i}
       name  ={user.name}
       gender ={user.gender}
       homeworld ={user.homeworld}
@@ -28,10 +28,10 @@ const people = (user) => {
   );
 }
 
-const starships = (user) => {
+const starships = (user, i) => {
   return (
     <CardStarships
-      key   ={user.id}
+      key   ={i}
       name  ={user.name}
       model ={user.model}
       passengers ={user.passengers}
@@ -40,10 +40,10 @@ const starships = (user) => {
   );
 }
 
-const vehicles = (user) => {
+const vehicles = (user, i) => {
   return (
     <CardVehicles
-      key   ={user.id}
+      key   ={i}
       name  ={user.name}
       model ={user.model}
       passengers ={user.passengers}
@@ -52,11 +52,10 @@ const vehicles = (user) => {
   );
 }
 
-const species = (user) => {
+const species = (user, i) => {
   return (
     <CardSpecies
-      key   ={user.id}
-      id    ={user.id}
+      key   ={i}
       name  ={user.name}
       language ={user.language}
       homeworld ={user.homeworld}
@@ -66,10 +65,10 @@ const species = (user) => {
   );
 }
 
-const planets = (user) => {
+const planets = (user, i) => {
   return (
     <CardPlanets
-      key   ={user.id}
+      key   ={i}
       name  ={user.name}
       climate ={user.climate}
       population ={user.population}
@@ -82,22 +81,22 @@ const CardList = ({ cardArray, typeArray }) => {
   const CardArray = cardArray.map((user, i) => {
     switch(typeArray) {
       case 'Films':
-        return films(user);
+        return films(user, i);
         break; // eslint-disable-line no-unreachable
       case 'People':
-        return people(user);
+        return people(user, i);
         break; // eslint-disable-line no-unreachable
       case 'Starships':
-        return starships(user);
+        return starships(user, i);
         break; // eslint-disable-line no-unreachable
       case 'Vehicles':
-        return vehicles(user);
+        return vehicles(user, i);
         break; // eslint-disable-line no-unreachable
       case 'Species':
-        return species(user);
+        return species(user, i);
         break; // eslint-disable-line no-unreachable
       case 'Planets':
-        return planets(user);
+        return planets(user, i);
         break; // eslint-disable-line no-unreachable
       default:
         return ([]);

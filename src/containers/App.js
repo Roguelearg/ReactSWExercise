@@ -5,6 +5,7 @@ import Scroll from '../components/Scroll';
 import NavBar from '../components/NavBar';
 import './App.css';
 
+let test = 'Films';
 class App extends Component {
 
   constructor()
@@ -12,16 +13,17 @@ class App extends Component {
     super();
     this.state = {
       cardArray: [],
-      type: '',
+      category: 'Films',
       searchfield: ''
     }
   }
 
   componentDidMount()
   {
-    fetch(`https://swapi.co/api/films`)
+    console.log('must be second');
+    fetch(`https://swapi.co/api/${this.state.category.toLowerCase()}`)
       .then(response => response.json())
-      .then(users => this.setState({cardArray: users.results, type: 'Films'}));
+      .then(users => this.setState({cardArray: users.results}))
   }
 
   onSearchChange = (event) =>
@@ -31,32 +33,42 @@ class App extends Component {
 
   onNavClick = (event) =>
   {
-    fetch(`https://swapi.co/api/${event.target.text.toLowerCase()}`)
-      .then(response => response.json())
-      .then(users => this.setState({cardArray: users.results, type: event.target.text}));
+    const category = event.target.text;
+     fetch(`https://swapi.co/api/${category.toLowerCase()}`)
+       .then(response => response.json())
+       .then(users => this.setState({cardArray: users.results, category: category}))
   }
 
   render()
   {
-    const { cardArray, type, searchfield } = this.state;
-    const filteredCardArray = (type ==='Films') ?
-      cardArray.filter(card => {
-        return card.title.toLowerCase().includes(searchfield.toLowerCase());
-      }) :
-      cardArray.filter(card => {
-        return card.name.toLowerCase().includes(searchfield.toLowerCase());
-      })
-    // this.setState({type: 'People'});
-    // console.log('render', type);
+    const { cardArray, category } = this.state;
+    // console.log('render1 : ', category, oldCategory);
+    console.log('render', cardArray);
+    // const filteredCardArray = (category ==='Films') ?
+    //   (
+    //     console.log(cardArray, category),
+    //     cardArray.filter(card => {
+    //     return card.title.toLowerCase().includes(searchfield.toLowerCase());
+    //   })) :
+    //   (
+    //     console.log(cardArray, category),
+    //     cardArray.filter(card => {
+    //     return card.name.toLowerCase().includes(searchfield.toLowerCase());
+    //   }))
     return !cardArray.length ?
-       <h1 className='tc'>Loading</h1> :
+      <div className='tc'>
+        <h1 className='f1'>Star wars Infos</h1>
+        <NavBar clickEvent={this.onNavClick}/>
+        {/* <SearchBox searchChange={this.onSearchChange} typeArray={category}/> */}
+        <h1 className='tc'>Loading</h1>
+      </div> :
        (
         <div className='tc'>
           <h1 className='f1'>Star wars Infos</h1>
-          <NavBar clickEvent={this.onNavClick.bind(this)}/>
-          <SearchBox searchChange={this.onSearchChange} typeArray={type}/>
+          <NavBar clickEvent={this.onNavClick}/>
+          {/* <SearchBox searchChange={this.onSearchChange} typeArray={category}/> */}
           <Scroll>
-            <CardList cardArray = {filteredCardArray} typeArray={type}/>
+            <CardList cardArray = {cardArray} typeArray={category}/>
           </Scroll>
         </div>
       );
